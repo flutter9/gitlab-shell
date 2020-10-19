@@ -76,7 +76,6 @@ func TestToString(t *testing.T) {
 		expectedOutput string
 	}{
 		{
-			desc: "Without SSL cert dir",
 			keyLine: &KeyLine{
 				Id:     "1",
 				Value:  "public-key",
@@ -85,20 +84,10 @@ func TestToString(t *testing.T) {
 			},
 			expectedOutput: `command="/tmp/bin/gitlab-shell key-1",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty public-key`,
 		},
-		{
-			desc: "With SSL cert dir",
-			keyLine: &KeyLine{
-				Id:     "1",
-				Value:  "public-key",
-				Prefix: "key",
-				Config: &config.Config{RootDir: "/tmp", SslCertDir: "/tmp/certs"},
-			},
-			expectedOutput: `command="SSL_CERT_DIR=/tmp/certs /tmp/bin/gitlab-shell key-1",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty public-key`,
-		},
 	}
 
 	for _, tc := range testCases {
-		t.Run(tc.desc, func(t *testing.T) {
+		t.Run("", func(t *testing.T) {
 			result := tc.keyLine.ToString()
 			require.Equal(t, tc.expectedOutput, result)
 		})
